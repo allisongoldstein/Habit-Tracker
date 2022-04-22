@@ -18,7 +18,7 @@ body {
     flex-direction: row;
 }
 
-.sidebar, .content {
+.sidebar, .main {
     display: flex;
     flex-direction: column;
     height: 600px;
@@ -33,7 +33,11 @@ body {
     width: 200px;
 }
 
-.content {
+.main {
     flex-grow: 5;
     width: 300px;
+}
+
+.content {
+    padding: 10px;
 }
