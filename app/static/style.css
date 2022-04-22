@@ -1,0 +1,39 @@
+.navbar {
+    background-color: white;
+    border: 1px solid black;
+    border-top: transparent;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 5px;
+}
+
+body {
+    background-color: rgb(137, 192, 236);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+}
+
+.sidebar, .content {
+    display: flex;
+    flex-direction: column;
+    height: 600px;
+    margin: 20px;
+    border: 1px solid black;
+    background-color: white;
+    /* position: fixed; */
+}
+
+.sidebar {
+    flex-grow: 1;
+    width: 200px;
+}
+
+.content {
+    flex-grow: 5;
+    width: 300px;
+}

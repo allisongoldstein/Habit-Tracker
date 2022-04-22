@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 <html>
     <head>
         <title>{{ title }}</title>
-        <div>
+        <div class="navbar">
             NAVBAR
         </div>
     </head>
 
     <body>
-        <div class="sidebar">
+        <div class="container">
+            <div class="content">
+                {% block content %}
+                {% endblock %}
+            </div>
+            <div class="sidebar">
 
-        </div>
-        <div class="content">
-            {% block content %}
-            {% endblock %}
+            </div>
         </div>
     </body>
 </html>
