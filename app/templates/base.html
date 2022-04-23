@@ -7,13 +7,26 @@
         <title>{{ title }}</title>
         <div class="navbar">
             <a href="/">HOME</a><br>
-            <a href="/login">Login</a>
+            {% if current_user.is_anonymous %}
+            <a href="{{ url_for('login') }}">Login</a>
+            {% else %}
+            <a href="{{ url_for('logout') }}">Logout</a>
+            {% endif %}
         </div>
     </head>
 
     <body>
         <div class="container">
             <div class="main">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
                 {% block content %}
                 {% endblock %}
             </div>
