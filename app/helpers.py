@@ -3,10 +3,13 @@ import calendar
 
 def getMonthCalendar():
     today = date.today()
-    print(today)
-    print('this', today.month)
+    month, year = today.month, today.year
+
     cal = calendar.month(today.year, today.month)
     monthCal = calendar.HTMLCalendar(firstweekday=0)
-    month, year = today.month, today.year
-    printMonth = monthCal.formatmonth(year, month)
-    return printMonth
+    calHTML = monthCal.formatmonth(year, month)
+
+    display = '<b><span class="today">' + str(today.day) + '</span></b>'
+    editedCal = calHTML.replace(str(today.day), display)
+    
+    return editedCal

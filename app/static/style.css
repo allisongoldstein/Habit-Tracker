@@ -13,19 +13,16 @@
     min-height: 30px;
 }
 
-.navlink {
+.navlink, .navlink:hover {
     color: black;
-    margin: 0px;
-    padding: 0px;
-}
-
-.navlink:hover {
     font-weight: bold;
-    color: black;
+    padding: 0px;
 }
 
 .right {
     float: right;
+    color: black;
+    font-weight: normal;
 }
 
 body {
@@ -112,6 +109,16 @@ th.month {
 
 .month {
     text-align: center;
+}
+
+td {
+    padding: 5px;
+}
+
+.today {
+    color: green;
+    padding: 2px;
+    border: 1px solid green;
 }
 
 .error {
