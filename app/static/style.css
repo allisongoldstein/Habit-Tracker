@@ -5,14 +5,37 @@
     border-radius: 0;
     margin-left: 35px;
     margin-right: 35px;
-    padding: 5px;
+    padding-top: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
     margin-bottom: 0px;
+    font-weight: bold;
+    min-height: 30px;
+}
+
+.navlink {
+    color: black;
+    margin: 0px;
+    padding: 0px;
+}
+
+.navlink:hover {
+    font-weight: bold;
+    color: black;
+}
+
+.right {
+    float: right;
 }
 
 body {
-    background-color: rgb(137, 192, 236);
+    background-color: rgb(175, 214, 236);
     margin: 0px;
     padding: 0px;
+}
+
+label {
+    font-weight: normal;
 }
 
 .container {
@@ -24,10 +47,10 @@ body {
 .sidebar, .main {
     display: flex;
     flex-direction: column;
-    height: 500px;
     margin: 20px;
     border: 1px solid black;
     background-color: white;
+    padding-bottom: 15px;
 }
 
 .sidebar {
@@ -41,9 +64,41 @@ body {
 }
 
 .content {
-    padding: 10px;
+    padding-left: 10px;
+}
+
+.center {
+    text-align: center;
+}
+
+.tasks {
+    padding-left: 50px;
+    font-weight: normal;
+}
+
+.completed-tasks {
+    opacity: 40%;
+}
+
+.completed {
+    text-decoration: line-through;
+}
+
+.btn, .btn:hover, .btn:active {
+    background-color: rgb(202, 73, 125);
+    border: 1px solid black;
+    padding: 5px;
+    width: 100px;
+    color: white;
+    border-radius: 0;
+}
+
+.delete-button, .delete-button:hover {
+    font-weight: bold;
+    color: black;
 }
 
 .error {
     color: red;
+    
 }
