@@ -48,7 +48,14 @@ def register():
 @app.route('/viewTasks')
 def viewTasks():
     tasks = Task.query.all()
-    return render_template('viewTasks.html', title='View Tasks', tasks=tasks)
+    checkedTasks = Task.query.filter_by(completed=True).all()
+    uncheckedTasks = []
+    for task in tasks:
+        if task not in checkedTasks:
+            uncheckedTasks.append(task)
+    print(uncheckedTasks)
+    print(checkedTasks)
+    return render_template('viewTasks.html', title='View Tasks', tasks=uncheckedTasks, completedTasks=checkedTasks)
 
 @app.route('/addTask', methods=['GET', 'POST'])
 def addTask():
@@ -71,3 +78,18 @@ def add():
         print(name)
         msg = f'Successfully created new task: {name}'
     return jsonify(msg)
+
+@app.route('/check', methods=['GET', 'POST'])
+def check():
+    if request.method == 'POST':
+        id = request.form['id']
+        checked = request.form['checked']
+        print(checked)
+        task = Task.query.filter_by(id=id).first()
+        if checked == 'checked':
+            task.completed = True
+        else:
+            task.completed = False
+        db.session.commit()
+
+    return 'success'
