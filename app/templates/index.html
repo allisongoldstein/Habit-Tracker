@@ -9,7 +9,13 @@
 {% block content %}
 <div class="container">
 <div class="main">
+{% if current_user.is_anonymous %}
+<div class="content">
+<p><a class="navlink" href="{{ url_for('login') }}">Login</a> to view habits.</p>
+
+</div>{% else %}
 {% include 'viewHabits.html' %}
+{% endif %}
 {% include 'sidebar.html' %}
 </div>
 </div>

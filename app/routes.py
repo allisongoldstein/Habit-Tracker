@@ -10,6 +10,8 @@ from app.helpers import *
 @app.route('/')
 @app.route('/index')
 def index():
+    if current_user.is_anonymous:
+        return redirect(url_for('login'))
     today = date.today()
     strdate = today.strftime('%B %d, %Y')
     habits = Habit.query.all()

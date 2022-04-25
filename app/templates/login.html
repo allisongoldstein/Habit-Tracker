@@ -10,7 +10,7 @@
 {% block content %}
 <div class="container">
 <div class="main">
-<div class="content">
+<div class="other">
 <h1>Sign In</h1>
 <form action="" method="POST" novalidate>
     {{ form.hidden_tag() }}
@@ -34,8 +34,6 @@
 <p>New User? <a href="{{ url_for('register') }}">Register Here</a></p>
 </div>
 </div>
-
-{% include 'sidebar.html' %}
 
 </div>
 

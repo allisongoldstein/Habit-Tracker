@@ -64,6 +64,10 @@ label {
     padding-left: 10px;
 }
 
+.other {
+    padding-left: 30px;
+}
+
 .center {
     text-align: center;
 }
@@ -97,6 +101,10 @@ label {
 
 .calendar-display {
     margin: 5px;
+}
+
+th {
+    text-align: center;
 }
 
 th.month {
