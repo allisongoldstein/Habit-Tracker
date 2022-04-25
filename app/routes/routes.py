@@ -1,10 +1,10 @@
 from app import app, db
-from flask import jsonify, render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request
 from app.forms import LoginForm, RegistrationForm, AddTaskForm
 from flask_login import current_user, login_user, logout_user
 from app.models import User, Task
 from datetime import date
-
+from app.helpers import *
 
 
 @app.route('/')
@@ -20,7 +20,10 @@ def index():
             uncheckedTasks.append(task)
     print(uncheckedTasks)
     print(checkedTasks)
-    return render_template('index.html', title='Habit Tracker', date=strdate, tasks=uncheckedTasks, completedTasks=checkedTasks)
+    month = getMonthCalendar()
+    return render_template('index.html', title='Habit Tracker',
+    date=strdate, month=month,
+    tasks=uncheckedTasks, completedTasks=checkedTasks)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

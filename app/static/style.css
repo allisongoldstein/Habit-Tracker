@@ -98,6 +98,22 @@ label {
     color: black;
 }
 
+.calendar-display {
+    margin: 5px;
+}
+
+th.month {
+    padding-top: 10px;
+    padding-bottom: 5px;
+    width: 50%;
+    margin: 5px auto;
+    text-align: center;
+}
+
+.month {
+    text-align: center;
+}
+
 .error {
     color: red;
     

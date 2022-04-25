@@ -7,7 +7,7 @@
     {% for task in tasks %}
     <input type="checkbox" class="task" id="task" name="{{task.id}}">
     <label for="{{task.id}}">{{ task.name }}</label>
-    {% if showDelete is true %} - <a class="delete-button" name="{{task.id}}">[DELETE]</a>{% endif %}<br />
+    {% if showDelete == true %} - <a class="delete-button" name="{{task.id}}">[DELETE]</a>{% endif %}<br />
     {% endfor %}
     
     <br />
