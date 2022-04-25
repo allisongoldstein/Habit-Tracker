@@ -14,8 +14,8 @@ def index():
         return redirect(url_for('login'))
     today = date.today()
     strdate = today.strftime('%B %d, %Y')
-    habits = Habit.query.all()
-    checkedHabits = Habit.query.filter_by(completed=True, date=today).all()
+    habits = Habit.query.filter_by(user_id=current_user.id)
+    checkedHabits = Habit.query.filter_by(user_id=current_user.id, completed=True, date=today).all()
     uncheckedHabits = []
     for habit in habits:
         if habit not in checkedHabits:
