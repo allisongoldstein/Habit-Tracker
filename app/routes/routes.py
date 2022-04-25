@@ -1,8 +1,10 @@
+from ctypes.wintypes import MSG
 from app import app, db
-from flask import render_template, flash, redirect, url_for
+from flask import jsonify, render_template, flash, redirect, url_for, request
 from app.forms import LoginForm, RegistrationForm, AddTaskForm
 from flask_login import current_user, login_user, logout_user
 from app.models import User, Task
+
 
 
 @app.route('/')
@@ -43,6 +45,11 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
+@app.route('/viewTasks')
+def viewTasks():
+    tasks = Task.query.all()
+    return render_template('viewTasks.html', title='View Tasks', tasks=tasks)
+
 @app.route('/addTask', methods=['GET', 'POST'])
 def addTask():
     form = AddTaskForm()
@@ -53,3 +60,14 @@ def addTask():
         flash('Task added.')
         return redirect(url_for('index'))
     return render_template('addTask.html', title='Add Task', form=form)
+
+@app.route('/add', methods=['GET', 'POST'])
+def add():
+    if request.method == 'POST':
+        name = request.form['name']
+        task = Task(name=name, user_id=current_user.id)
+        db.session.add(task)
+        db.session.commit()
+        print(name)
+        msg = f'Successfully created new task: {name}'
+    return jsonify(msg)

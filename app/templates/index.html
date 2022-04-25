@@ -1,8 +1,78 @@
-{% extends 'base.html' %}
+{% extends 'bootstrap/base.html' %}
+
+{% include 'header.html' %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+{% endblock %}
 
 {% block content %}
-<div class="content">
+
+<div class="container">
+
+<div class="main">
+    <div class="content">
     <h1>Test</h1>
+
     <p><a href="{{ url_for('addTask') }}">Add Task</a></p>
+    <p><a href="{{ url_for('viewTasks') }}">View Tasks</a></p>
+
+    <div>
+        <a data-target="#task-modal" role="button" class="btn btn-warning" data-toggle="modal"><span class="">Add Task</span></a>
+    </div>
+
+    <div id="task-modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">x</button>
+                    <h4 class="modal-title">Create New Task</h4>
+                </div>
+                <div class="modal-body">
+                    <label>Name</label>
+                    <input type="text" name="name" id="name" class="form-control" />
+                    <br />
+                    <button type="button" name="submit-button" id="submit-button" class="btn btn-warning">Add Task</button>
+                </div>
+            </div>
+
+        </div>
+        </div>
+    </div>
 </div>
+
+{% include 'sidebar.html' %}
+
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+{{super()}}
+
+<script>
+
+$(document).ready(function(){
+    $('#submit-button').click(function(){
+        var name = $('#name').val();
+        if(name != '') {
+            $.ajax({
+                url:'/add',
+                method:'POST',
+                data: {name:name},
+                success:function(data){
+                    alert(data);
+                    $('#task-modal').hide();
+                    location.reload();
+                }
+            })
+        }
+    })
+})
+
+</script>
+
+
 {% endblock %}

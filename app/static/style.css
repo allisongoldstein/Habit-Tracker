@@ -2,30 +2,32 @@
     background-color: white;
     border: 1px solid black;
     border-top: transparent;
-    margin-left: 20px;
-    margin-right: 20px;
+    border-radius: 0;
+    margin-left: 35px;
+    margin-right: 35px;
     padding: 5px;
+    margin-bottom: 0px;
 }
 
 body {
     background-color: rgb(137, 192, 236);
-    margin: 0;
-    padding: 0;
+    margin: 0px;
+    padding: 0px;
 }
 
 .container {
     display: flex;
     flex-direction: row;
+    width: 100%;
 }
 
 .sidebar, .main {
     display: flex;
     flex-direction: column;
-    height: 600px;
+    height: 500px;
     margin: 20px;
     border: 1px solid black;
     background-color: white;
-    /* position: fixed; */
 }
 
 .sidebar {
