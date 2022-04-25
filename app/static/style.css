@@ -71,12 +71,12 @@ label {
     text-align: center;
 }
 
-.tasks {
+.habits {
     padding-left: 50px;
     font-weight: normal;
 }
 
-.completed-tasks {
+.completed-habits {
     opacity: 40%;
 }
 

@@ -1,8 +1,8 @@
 from app import app, db
 from flask import render_template, flash, redirect, url_for, request
-from app.forms import LoginForm, RegistrationForm, AddTaskForm
+from app.forms import LoginForm, RegistrationForm
 from flask_login import current_user, login_user, logout_user
-from app.models import User, Task
+from app.models import User, Habit
 from datetime import date
 from app.helpers import *
 
@@ -12,18 +12,18 @@ from app.helpers import *
 def index():
     today = date.today()
     strdate = today.strftime('%B %d, %Y')
-    tasks = Task.query.all()
-    checkedTasks = Task.query.filter_by(completed=True, date=today).all()
-    uncheckedTasks = []
-    for task in tasks:
-        if task not in checkedTasks:
-            uncheckedTasks.append(task)
-    print(uncheckedTasks)
-    print(checkedTasks)
+    habits = Habit.query.all()
+    checkedHabits = Habit.query.filter_by(completed=True, date=today).all()
+    uncheckedHabits = []
+    for habit in habits:
+        if habit not in checkedHabits:
+            uncheckedHabits.append(habit)
+    print(uncheckedHabits)
+    print(checkedHabits)
     month = getMonthCalendar()
     return render_template('index.html', title='Habit Tracker',
     date=strdate, month=month,
-    tasks=uncheckedTasks, completedTasks=checkedTasks)
+    habits=uncheckedHabits, completedHabits=checkedHabits)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -58,36 +58,12 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
-@app.route('/viewTasks')
-def viewTasks():
-    tasks = Task.query.all()
-    checkedTasks = Task.query.filter_by(completed=True).all()
-    uncheckedTasks = []
-    for task in tasks:
-        if task not in checkedTasks:
-            uncheckedTasks.append(task)
-    print(uncheckedTasks)
-    print(checkedTasks)
-    showDelete = False
-    return render_template('viewTasks.html', title='View Tasks', tasks=uncheckedTasks, completedTasks=checkedTasks, showDelete=showDelete)
-
-@app.route('/addTask', methods=['GET', 'POST'])
-def addTask():
-    form = AddTaskForm()
-    if form.validate_on_submit():
-        task = Task(name=form.name.data)
-        db.session.add(task)
-        db.session.commit()
-        flash('Task added.')
-        return redirect(url_for('index'))
-    return render_template('addTask.html', title='Add Task', form=form)
-
 @app.route('/add', methods=['GET', 'POST'])
 def add():
     if request.method == 'POST':
         name = request.form['name']
-        task = Task(name=name, user_id=current_user.id)
-        db.session.add(task)
+        habit = Habit(name=name, user_id=current_user.id)
+        db.session.add(habit)
         db.session.commit()
     return 'success'
 
@@ -98,12 +74,12 @@ def check():
         id = request.form['id']
         checked = request.form['checked']
         today = date.today()
-        task = Task.query.filter_by(id=id).first()
+        habit = Habit.query.filter_by(id=id).first()
         if checked == 'checked':
-            task.completed = True
-            task.date = today
+            habit.completed = True
+            habit.date = today
         else:
-            task.completed = False
+            habit.completed = False
         db.session.commit()
 
     return 'success'
@@ -116,7 +92,7 @@ def delete():
         print(request.form)
         id = request.form['id']
         print(id)
-        task = Task.query.filter_by(id=id).first()
-        db.session.delete(task)
+        habit = Habit.query.filter_by(id=id).first()
+        db.session.delete(habit)
         db.session.commit()
         return 'success'

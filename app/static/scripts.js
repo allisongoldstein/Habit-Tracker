@@ -9,7 +9,7 @@ $(document).ready(function(){
                 method:'POST',
                 data: {name:name},
                 success:function(data){
-                    $('#task-modal').hide();
+                    $('#habit-modal').hide();
                     location.reload();
                 }
             })
@@ -18,7 +18,7 @@ $(document).ready(function(){
 })
 
 $(document).ready(function(){
-    $('.task').change(function() {
+    $('.habit').change(function() {
         var id = this['name']
         if(this.checked) {
             var checked = 'checked'

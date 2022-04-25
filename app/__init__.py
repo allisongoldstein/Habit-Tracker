@@ -14,4 +14,4 @@ login = LoginManager(app)
 login.login_view = 'login'
 
 from app import models
-from app.routes import routes
+from app import routes

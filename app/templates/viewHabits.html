@@ -1,0 +1,49 @@
+{% block content %}
+
+<div class="content">
+    <h1 class="center">{{ date }}</h1>
+    <div class="habits">
+    <h4>To Be Completed</h4>
+    {% for habit in habits %}
+    <input type="checkbox" class="habit" id="habit" name="{{habit.id}}">
+    <label for="{{habit.id}}">{{ habit.name }}</label>
+    {% if showDelete == true %} - <a class="delete-button" name="{{habit.id}}">[DELETE]</a>{% endif %}<br />
+    {% endfor %}
+    
+    <br />
+    <div>
+        <a data-target="#habit-modal" role="button" class="btn" data-toggle="modal"><span class="">Add Habit</span></a>
+    </div>
+    {% if completedHabits %}
+    <hr>
+    <h4>Completed</h4>
+    <div class="completed-habits">
+    {% for habit in completedHabits %}
+    <input type="checkbox" class="habit" id="habit" name="{{habit.id}}" checked>
+    <label class="completed" for="{{habit.id}}">{{ habit.name }}</label><br />
+    {% endfor %}
+    </div>
+    {% endif %}
+    </div>
+
+    <div id="habit-modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">x</button>
+                    <h4 class="modal-title">Create New Habit</h4>
+                </div>
+                <div class="modal-body">
+                    <label>Name</label>
+                    <input type="text" name="name" id="name" class="form-control" />
+                    <br />
+                    <button type="button" name="submit-button" id="submit-button" class="btn">Add Habit</button>
+                </div>
+            </div>
+
+        </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
