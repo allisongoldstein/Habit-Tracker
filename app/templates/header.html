@@ -3,6 +3,10 @@
     <title>{{ title }}</title>
     <div class="navbar">
         <a class="navlink" href="/">HOME</a>
+        &nbsp;|&nbsp;
+        <a class="navlink" href="">Sample Data</a>
+        &nbsp;|&nbsp;
+        <a class="navlink" href="">FAQs</a>
         <div class="right">
         {% if current_user.is_anonymous %}
         <a class="navlink" href="{{ url_for('login') }}">Login</a>
