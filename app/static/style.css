@@ -68,8 +68,9 @@ label {
     padding-left: 30px;
 }
 
-.center {
+.center-date {
     text-align: center;
+    padding-bottom: 20px;
 }
 
 .habits {
@@ -128,6 +129,43 @@ td {
     padding: 2px;
     border: 1px solid green;
 }
+
+.button-display {
+    align-self: center;
+}
+
+.sidebar-button {
+    width: 150px;
+    height: 50px;
+    font-weight: bold;
+    border: 1px solid black;
+}
+
+.options {
+    /* background-color: #777; */
+    /* color: white; */
+    /* cursor: pointer; */
+    /* padding: 18px; */
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    /* color: red; */
+    /* font-size: 15px; */
+  }
+  
+  .active, .options:hover {
+    /* background-color: #555; */
+    color: black;
+  }
+
+  .advanced-options {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+    color: red;
+  }
 
 .error {
     color: red;

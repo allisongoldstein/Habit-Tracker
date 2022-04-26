@@ -1,7 +1,7 @@
 {% block content %}
 
 <div class="content">
-    <h1 class="center">{{ date }}</h1>
+    <h1 class="center-date">{{ date }}</h1>
     <div class="habits">
     <h4>To Be Completed</h4>
     {% for habit in habits %}
@@ -34,9 +34,21 @@
                     <h4 class="modal-title">Create New Habit</h4>
                 </div>
                 <div class="modal-body">
-                    <label>Name</label>
+                    <label>Habit Name</label>
                     <input type="text" name="name" id="name" class="form-control" />
                     <br />
+
+                        <button type="button" class="options" data-toggle="collapse" data-target="#advanced-options" aria-expanded="false" aria-controls="advanced-options">
+                            -- Advanced Options -- 
+                        </button>
+                      <div class="collapse" id="advanced-options">
+                        <div class="card card-body">
+                          <br />
+                          TBD
+                        </div>
+                      </div>
+
+                    <br /><br />
                     <button type="button" name="submit-button" id="submit-button" class="btn">Add Habit</button>
                 </div>
             </div>
