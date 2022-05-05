@@ -22,10 +22,12 @@ $(document).ready(function(){
         } else {
             var checked = 'unchecked'
         }
+        var date = $('.center-date').text()
+        console.log(date)
         $.ajax({
             url:'/check',
             method:'POST',
-            data: {checked:checked, id:id},
+            data: {checked:checked, id:id, date:date},
             success:function(data){
                 location.reload();
             }

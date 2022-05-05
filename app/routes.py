@@ -2,7 +2,7 @@ from app import app, db
 from flask import render_template, flash, redirect, url_for, request
 from app.forms import LoginForm, RegistrationForm
 from flask_login import current_user, login_user, logout_user
-from app.models import User, Habit
+from app.models import User, Habit, Check
 from datetime import date, datetime
 from app.helpers import *
 
@@ -15,13 +15,18 @@ def index():
     viewDate = date.today()
     strdate = viewDate.strftime('%B %d, %Y')
     habits = Habit.query.filter_by(user_id=current_user.id)
-    checkedHabits = Habit.query.filter_by(user_id=current_user.id, completed=True, date=viewDate).all()
+    checks = Check.query.filter_by(user_id=current_user.id, date=viewDate).all()
+    checkedHabits = []
     uncheckedHabits = []
+    for check in checks:
+        habit = Habit.query.filter_by(id=check.habit_id).first()
+        print(habit)
+        checkedHabits.append(habit)
     for habit in habits:
         if habit not in checkedHabits:
             uncheckedHabits.append(habit)
-    # print(uncheckedHabits)
-    # print(checkedHabits)
+    print('checks: ', checkedHabits)
+    print('uc: ', uncheckedHabits)
     month = getMonthCalendar()
     return render_template('index.html', title='Habit Tracker',
     date=strdate, month=month,
@@ -60,34 +65,33 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
-@app.route('/add/<x>', methods=['GET', 'POST'])
-def add(x):
+@app.route('/add', methods=['GET', 'POST'])
+def add():
     if request.method == 'POST':
         name = request.form['name']
         habit = Habit(name=name, user_id=current_user.id)
         db.session.add(habit)
         db.session.commit()
-    return 'success', x
+    return 'success'
 
 @app.route('/check', methods=['GET', 'POST'])
 def check():
     if request.method == 'POST':
         id = request.form['id']
         checked = request.form['checked']
-        today = date.today()
-        habit = Habit.query.filter_by(id=id).first()
+        date = datetime.strptime(request.form['date'], '%B %d, %Y').date()
         if checked == 'checked':
-            habit.completed = True
-            habit.date = today
+            check = Check(habit_id=id, user_id=current_user.id, date=date)
+            db.session.add(check)
         else:
-            habit.completed = False
+            check = Check.query.filter_by(habit_id=id, user_id=current_user.id).first()
+            db.session.delete(check)
         db.session.commit()
 
     return 'success'
 
 @app.route('/delete', methods=['GET', 'POST'])
 def delete():
-    print('test')
     if request.method == 'POST':
         id = request.form['id']
         habit = Habit.query.filter_by(id=id).first()
@@ -96,20 +100,28 @@ def delete():
         return 'success'
 
 @app.route('/viewDate/<viewDate>')
-def viewDate(viewDate):
+@app.route('/viewDate/')
+def viewDate(viewDate=None):
     if current_user.is_anonymous:
         return redirect(url_for('login'))
-    viewDate = datetime.strptime(viewDate, '%Y-%m-%d').date()
+    if viewDate is None:
+        return redirect(url_for('index'))
+    else:
+        viewDate = datetime.strptime(viewDate, '%Y-%m-%d').date()  
     strdate = viewDate.strftime('%B %d, %Y')
     habits = Habit.query.filter_by(user_id=current_user.id)
+    checks = Check.query.filter_by(user_id=current_user.id, date=viewDate).all()
     checkedHabits = []
-    checkedHabits = Habit.query.filter_by(user_id=current_user.id, completed=True, date=viewDate).all()
     uncheckedHabits = []
+    for check in checks:
+        habit = Habit.query.filter_by(id=check.habit_id).first()
+        print(habit)
+        checkedHabits.append(habit)
     for habit in habits:
         if habit not in checkedHabits:
             uncheckedHabits.append(habit)
-    print(uncheckedHabits)
-    print(checkedHabits)
+    print('checks: ', checkedHabits)
+    print('uc: ', uncheckedHabits)
     month = getMonthCalendar()
     return render_template('index.html', title='Habit Tracker',
     date=strdate, month=month,
