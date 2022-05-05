@@ -1,6 +1,5 @@
-
-
 $(document).ready(function(){
+
     $('#submit-button').click(function(){
         var name = $('#name').val();
         if(name != '') {
@@ -15,9 +14,7 @@ $(document).ready(function(){
             })
         }
     })
-})
 
-$(document).ready(function(){
     $('.habit').change(function() {
         var id = this['name']
         if(this.checked) {
@@ -34,9 +31,7 @@ $(document).ready(function(){
             }
         })
     })
-})
 
-$(document).ready(function(){
     $('.delete-button').click(function(){
         var id = this.name
         $.ajax({
@@ -45,6 +40,16 @@ $(document).ready(function(){
             data: {id:id},
             success:function(data){
                 location.reload();
+            }
+        })
+    })
+
+    $('#datepicker-submit').click(function() {
+        var date = $('#datepicker').val();
+        console.log(date)
+        $.ajax({
+            success:function(data){
+                window.location.href = '/viewDate/' + date
             }
         })
     })

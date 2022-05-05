@@ -3,7 +3,7 @@ from flask import render_template, flash, redirect, url_for, request
 from app.forms import LoginForm, RegistrationForm
 from flask_login import current_user, login_user, logout_user
 from app.models import User, Habit
-from datetime import date
+from datetime import date, datetime
 from app.helpers import *
 
 
@@ -12,16 +12,16 @@ from app.helpers import *
 def index():
     if current_user.is_anonymous:
         return redirect(url_for('login'))
-    today = date.today()
-    strdate = today.strftime('%B %d, %Y')
+    viewDate = date.today()
+    strdate = viewDate.strftime('%B %d, %Y')
     habits = Habit.query.filter_by(user_id=current_user.id)
-    checkedHabits = Habit.query.filter_by(user_id=current_user.id, completed=True, date=today).all()
+    checkedHabits = Habit.query.filter_by(user_id=current_user.id, completed=True, date=viewDate).all()
     uncheckedHabits = []
     for habit in habits:
         if habit not in checkedHabits:
             uncheckedHabits.append(habit)
-    print(uncheckedHabits)
-    print(checkedHabits)
+    # print(uncheckedHabits)
+    # print(checkedHabits)
     month = getMonthCalendar()
     return render_template('index.html', title='Habit Tracker',
     date=strdate, month=month,
@@ -60,18 +60,17 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
-@app.route('/add', methods=['GET', 'POST'])
-def add():
+@app.route('/add/<x>', methods=['GET', 'POST'])
+def add(x):
     if request.method == 'POST':
         name = request.form['name']
         habit = Habit(name=name, user_id=current_user.id)
         db.session.add(habit)
         db.session.commit()
-    return 'success'
+    return 'success', x
 
 @app.route('/check', methods=['GET', 'POST'])
 def check():
-    print('testerrrrrrrrrrrrrrrrr')
     if request.method == 'POST':
         id = request.form['id']
         checked = request.form['checked']
@@ -90,11 +89,28 @@ def check():
 def delete():
     print('test')
     if request.method == 'POST':
-        print(request.method)
-        print(request.form)
         id = request.form['id']
-        print(id)
         habit = Habit.query.filter_by(id=id).first()
         db.session.delete(habit)
         db.session.commit()
         return 'success'
+
+@app.route('/viewDate/<viewDate>')
+def viewDate(viewDate):
+    if current_user.is_anonymous:
+        return redirect(url_for('login'))
+    viewDate = datetime.strptime(viewDate, '%Y-%m-%d').date()
+    strdate = viewDate.strftime('%B %d, %Y')
+    habits = Habit.query.filter_by(user_id=current_user.id)
+    checkedHabits = []
+    checkedHabits = Habit.query.filter_by(user_id=current_user.id, completed=True, date=viewDate).all()
+    uncheckedHabits = []
+    for habit in habits:
+        if habit not in checkedHabits:
+            uncheckedHabits.append(habit)
+    print(uncheckedHabits)
+    print(checkedHabits)
+    month = getMonthCalendar()
+    return render_template('index.html', title='Habit Tracker',
+    date=strdate, month=month,
+    habits=uncheckedHabits, completedHabits=checkedHabits)

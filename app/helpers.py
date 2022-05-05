@@ -6,7 +6,7 @@ def getMonthCalendar():
     month, year = today.month, today.year
 
     # cal = calendar.month(today.year, today.month)
-    monthCal = calendar.HTMLCalendar(firstweekday=0)
+    monthCal = calendar.HTMLCalendar(firstweekday=6)
     calHTML = monthCal.formatmonth(year, month)
 
     editDate = '>' + str(today.day) + '<'

@@ -52,12 +52,12 @@ label {
 
 .sidebar {
     flex-grow: 1;
-    width: 200px;
+    min-width: 220px;
 }
 
 .main {
     flex-grow: 5;
-    width: 300px;
+    min-width: 300px;
 }
 
 .content {
@@ -139,6 +139,13 @@ td {
     height: 50px;
     font-weight: bold;
     border: 1px solid black;
+}
+
+#datepicker, #datepicker-submit {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    align-items: center;
+    width: 150px;
 }
 
 .options {
