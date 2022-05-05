@@ -1,7 +1,11 @@
 {% block content %}
 
 <div class="content">
-    <h1 class="center-date">{{ date }}</h1>
+    <h1 class="center-date">
+        <a class="date-nav" href="{{ url_for('viewDate', viewDate=date1) }}"><<</a>
+        <span id="viewDate">{{ strDate }}</span>
+        <a class="date-nav" href="{{ url_for('viewDate', viewDate=date2) }}">>></a>
+    </h1>
     <div class="habits">
     <h4>To Be Completed</h4>
     {% for habit in habits %}

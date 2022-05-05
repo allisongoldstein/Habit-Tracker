@@ -57,11 +57,12 @@ label {
 
 .main {
     flex-grow: 5;
-    min-width: 300px;
+    min-width: 350px;
 }
 
 .content {
     padding-left: 10px;
+    padding-right: 10px;
 }
 
 .content2 {
@@ -69,8 +70,13 @@ label {
 }
 
 .center-date {
+    margin-bottom: 20px;
+    align-content: center;
     text-align: center;
-    padding-bottom: 20px;
+}
+
+.date-nav, .date-nav:hover {
+    color: black;
 }
 
 .habits {
@@ -125,9 +131,28 @@ td {
 }
 
 .today {
+    font-weight: bold;
     color: green;
-    padding: 2px;
-    border: 1px solid green;
+    padding-left: 3px;
+    padding-right: 3px;
+    margin: 2px;
+    border: 1px solid;
+}
+
+#calDate, .calDate, a:link {
+    color: black;
+}
+
+#onDate {
+    font-weight: bold;
+    color: rgb(97, 8, 153);
+    padding-left: 3px;
+    padding-right: 3px;
+    border: 1px dotted;
+}
+
+.mon {
+    color: black;
 }
 
 .button-display {
@@ -139,6 +164,7 @@ td {
     height: 50px;
     font-weight: bold;
     border: 1px solid black;
+    border-radius: 0;
 }
 
 #datepicker, #datepicker-submit {
@@ -146,6 +172,9 @@ td {
     margin-bottom: 5px;
     align-items: center;
     width: 150px;
+    border: 1px solid black;
+    border-radius: 0;
+    text-align: center;
 }
 
 .options {

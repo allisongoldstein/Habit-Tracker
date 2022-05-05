@@ -3,7 +3,7 @@ from flask import render_template, flash, redirect, url_for, request
 from app.forms import LoginForm, RegistrationForm
 from flask_login import current_user, login_user, logout_user
 from app.models import User, Habit, Check
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from app.helpers import *
 
 
@@ -13,23 +13,24 @@ def index():
     if current_user.is_anonymous:
         return redirect(url_for('login'))
     viewDate = date.today()
-    strdate = viewDate.strftime('%B %d, %Y')
+    date1, date2 = viewDate - timedelta(1), viewDate + timedelta(1)
+    strDate = viewDate.strftime('%B %d, %Y')
     habits = Habit.query.filter_by(user_id=current_user.id)
     checks = Check.query.filter_by(user_id=current_user.id, date=viewDate).all()
     checkedHabits = []
     uncheckedHabits = []
     for check in checks:
         habit = Habit.query.filter_by(id=check.habit_id).first()
-        print(habit)
+        # print(habit)
         checkedHabits.append(habit)
     for habit in habits:
         if habit not in checkedHabits:
             uncheckedHabits.append(habit)
-    print('checks: ', checkedHabits)
-    print('uc: ', uncheckedHabits)
-    month = getMonthCalendar()
+    # print('checks: ', checkedHabits)
+    # print('uc: ', uncheckedHabits)
+    month = getMonthCalendar(viewDate)
     return render_template('index.html', title='Habit Tracker',
-    date=strdate, month=month,
+    date=viewDate, date1=date1, date2=date2, strDate=strDate, month=month,
     habits=uncheckedHabits, completedHabits=checkedHabits)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -77,9 +78,11 @@ def add():
 @app.route('/check', methods=['GET', 'POST'])
 def check():
     if request.method == 'POST':
+        date = datetime.strptime(request.form['date'], '%B %d, %Y').date()
+        if date > date.today():
+            return redirect(url_for('viewDate', viewDate=date))
         id = request.form['id']
         checked = request.form['checked']
-        date = datetime.strptime(request.form['date'], '%B %d, %Y').date()
         if checked == 'checked':
             check = Check(habit_id=id, user_id=current_user.id, date=date)
             db.session.add(check)
@@ -107,22 +110,23 @@ def viewDate(viewDate=None):
     if viewDate is None:
         return redirect(url_for('index'))
     else:
-        viewDate = datetime.strptime(viewDate, '%Y-%m-%d').date()  
-    strdate = viewDate.strftime('%B %d, %Y')
+        viewDate = datetime.strptime(viewDate, '%Y-%m-%d').date()
+    date1, date2 = viewDate - timedelta(1), viewDate + timedelta(1)
+    strDate = viewDate.strftime('%B %d, %Y')
     habits = Habit.query.filter_by(user_id=current_user.id)
     checks = Check.query.filter_by(user_id=current_user.id, date=viewDate).all()
     checkedHabits = []
     uncheckedHabits = []
     for check in checks:
         habit = Habit.query.filter_by(id=check.habit_id).first()
-        print(habit)
+        # print(habit)
         checkedHabits.append(habit)
     for habit in habits:
         if habit not in checkedHabits:
             uncheckedHabits.append(habit)
-    print('checks: ', checkedHabits)
-    print('uc: ', uncheckedHabits)
-    month = getMonthCalendar()
+    # print('checks: ', checkedHabits)
+    # print('uc: ', uncheckedHabits)
+    month = getMonthCalendar(viewDate)
     return render_template('index.html', title='Habit Tracker',
-    date=strdate, month=month,
+    date=viewDate, date1=date1, date2=date2, strDate=strDate, month=month,
     habits=uncheckedHabits, completedHabits=checkedHabits)

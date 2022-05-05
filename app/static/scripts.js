@@ -22,7 +22,7 @@ $(document).ready(function(){
         } else {
             var checked = 'unchecked'
         }
-        var date = $('.center-date').text()
+        var date = $('#viewDate').text()
         console.log(date)
         $.ajax({
             url:'/check',
@@ -55,4 +55,19 @@ $(document).ready(function(){
             }
         })
     })
+
+    $('.calDate').click(function() {
+        date = this.name
+        console.log(date)
+        moveToDate(date)
+    })
+
 })
+
+function moveToDate(date) {
+    window.location.href = '/viewDate/' + date
+}
+
+function f() {
+    return
+}
