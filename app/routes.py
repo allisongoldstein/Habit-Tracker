@@ -1,7 +1,7 @@
 from app import app, db
 from flask import render_template, flash, redirect, url_for, request
 from app.forms import LoginForm, RegistrationForm
-from flask_login import current_user, login_user, logout_user
+from flask_login import current_user, login_required, login_user, logout_user
 from app.models import User, Habit, Check
 from datetime import date, datetime, timedelta
 from app.helpers import *
@@ -66,6 +66,7 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
+@login_required
 @app.route('/add', methods=['GET', 'POST'])
 def add():
     if request.method == 'POST':
@@ -75,6 +76,7 @@ def add():
         db.session.commit()
     return 'success'
 
+@login_required
 @app.route('/check', methods=['GET', 'POST'])
 def check():
     if request.method == 'POST':
@@ -93,6 +95,7 @@ def check():
 
     return 'success'
 
+@login_required
 @app.route('/delete', methods=['GET', 'POST'])
 def delete():
     if request.method == 'POST':
@@ -102,6 +105,7 @@ def delete():
         db.session.commit()
         return 'success'
 
+@login_required
 @app.route('/viewDate/<viewDate>')
 @app.route('/viewDate/')
 def viewDate(viewDate=None):
@@ -130,3 +134,9 @@ def viewDate(viewDate=None):
     return render_template('index.html', title='Habit Tracker',
     date=viewDate, date1=date1, date2=date2, strDate=strDate, month=month,
     habits=uncheckedHabits, completedHabits=checkedHabits)
+
+@login_required
+@app.route('/viewStats')
+def viewStats():
+    month = getMonthCalendar(datetime.today())
+    return render_template('viewStats.html', month=month)
