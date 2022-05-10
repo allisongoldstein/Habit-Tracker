@@ -136,7 +136,19 @@ def viewDate(viewDate=None):
     habits=uncheckedHabits, completedHabits=checkedHabits)
 
 @login_required
-@app.route('/viewStats')
-def viewStats():
+@app.route('/viewStats/')
+@app.route('/viewStats/<range>')
+def viewStats(range=30):
+
+    try:
+        numRange = int(range)
+        type = 'range'
+    except:
+        type = 'month'
+        month = range.rstrip('1234567890')
+        year = range[len(month):]
+        print('range =', month, year)
+
     month = getMonthCalendar(datetime.today())
-    return render_template('viewStats.html', month=month)
+    stats = getStats(30)
+    return render_template('viewStats.html', stats=stats, month=month)

@@ -1,5 +1,7 @@
-import calendar
 from calendar import HTMLCalendar, firstweekday
+from flask_login import current_user
+from app.models import Habit, Check
+from datetime import date, datetime
 
 class CustomCal(HTMLCalendar):
     def __init__(self, month, year):
@@ -39,6 +41,19 @@ def getMonthCalendar(date):
     display = '><span id="onDate">  ' + str(date.day) + '  </span><'
     editedCal = editedCal.replace(str(editDate), display)
 
-    print(editedCal)
+    # print(editedCal)
 
     return editedCal
+
+def getStats(range=0):
+    today = date.today()
+    habits = Habit.query.filter_by(user_id=current_user.id).all()
+    statsDict = {}
+    for habit in habits:
+        statsDict[habit.name] = 0
+        checks = Check.query.filter_by(user_id=current_user.id, habit_id=habit.id).all()
+        for check in checks:
+            if (today - check.date).days <= range:
+                statsDict[habit.name] += 1
+    print(statsDict)
+    return statsDict
