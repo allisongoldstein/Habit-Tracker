@@ -151,4 +151,12 @@ def viewStats(range=30):
 
     month = getMonthCalendar(datetime.today())
     stats = getStats(30)
-    return render_template('viewStats.html', stats=stats, month=month)
+    statsList = []
+    for stat in stats:
+        percent = round(stats[stat]/range * 100)
+        statsList.append([stat, stats[stat], percent])
+    print(statsList)
+
+    return render_template('viewStats.html',
+    stats=statsList, type=type, days=range,
+    month=month)
