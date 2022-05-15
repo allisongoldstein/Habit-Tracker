@@ -16,7 +16,7 @@ Daily habit tracker - users can add daily habits and check off what they have co
 - View previous days' completed habits
 - Basic stats on user habit completion
 
-<img src="https://i.imgur.com/rXyKavL.png" width=500>
+<img src="https://i.imgur.com/UAVHlve.png" width=500>
 
 ## UPCOMING FEATURES
 
