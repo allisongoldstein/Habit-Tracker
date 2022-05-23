@@ -10,10 +10,25 @@ from app.helpers import *
 @app.route('/')
 @app.route('/index')
 def index():
+    """
+    Redirects to viewDate (today),
+    redirects to login if not logged in
+    """
     if current_user.is_anonymous:
         return redirect(url_for('login'))
-    viewDate = date.today()
-    date1, date2 = viewDate - timedelta(1), viewDate + timedelta(1)
+
+    return redirect(url_for('viewDate'))
+
+@login_required
+@app.route('/viewDate/<viewDate>')
+@app.route('/viewDate/')
+def viewDate(viewDate=None):
+    """Displays viewDate data, defaults to today"""
+    if viewDate is None:
+        viewDate = date.today()
+    else:
+        viewDate = datetime.strptime(viewDate, '%Y-%m-%d').date()
+    prevDate, nextDate = viewDate - timedelta(1), viewDate + timedelta(1)     # for prev/next day links
     strDate = viewDate.strftime('%B %d, %Y')
     habits = Habit.query.filter_by(user_id=current_user.id)
     checks = Check.query.filter_by(user_id=current_user.id, date=viewDate).all()
@@ -21,17 +36,16 @@ def index():
     uncheckedHabits = []
     for check in checks:
         habit = Habit.query.filter_by(id=check.habit_id).first()
-        # print(habit)
         checkedHabits.append(habit)
     for habit in habits:
         if habit not in checkedHabits:
             uncheckedHabits.append(habit)
-    # print('checks: ', checkedHabits)
-    # print('uc: ', uncheckedHabits)
     month = getMonthCalendar(viewDate)
+
     return render_template('index.html', title='Habit Tracker',
-    date=viewDate, date1=date1, date2=date2, strDate=strDate, month=month,
+    date=viewDate, prevDate=prevDate, nextDate=nextDate, strDate=strDate, month=month,
     habits=uncheckedHabits, completedHabits=checkedHabits)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -69,6 +83,7 @@ def register():
 @login_required
 @app.route('/add', methods=['GET', 'POST'])
 def add():
+    """Add new habit"""
     if request.method == 'POST':
         name = request.form['name']
         habit = Habit(name=name, user_id=current_user.id)
@@ -79,16 +94,17 @@ def add():
 @login_required
 @app.route('/check', methods=['GET', 'POST'])
 def check():
+    """Check or uncheck habits based on current status for selected date"""
     if request.method == 'POST':
         date = datetime.strptime(request.form['date'], '%B %d, %Y').date()
         if date > date.today():
-            return redirect(url_for('viewDate', viewDate=date))
+            return redirect(url_for('viewDate', viewDate=date))     # future date redirects to today
         id = request.form['id']
         checked = request.form['checked']
         if checked == 'checked':
             check = Check(habit_id=id, user_id=current_user.id, date=date)
             db.session.add(check)
-        else:
+        else:                                                       # uncheck
             check = Check.query.filter_by(habit_id=id, user_id=current_user.id).first()
             db.session.delete(check)
         db.session.commit()
@@ -98,6 +114,7 @@ def check():
 @login_required
 @app.route('/delete', methods=['GET', 'POST'])
 def delete():
+    """Delete habit"""
     if request.method == 'POST':
         id = request.form['id']
         habit = Habit.query.filter_by(id=id).first()
@@ -106,40 +123,10 @@ def delete():
         return 'success'
 
 @login_required
-@app.route('/viewDate/<viewDate>')
-@app.route('/viewDate/')
-def viewDate(viewDate=None):
-    if current_user.is_anonymous:
-        return redirect(url_for('login'))
-    if viewDate is None:
-        return redirect(url_for('index'))
-    else:
-        viewDate = datetime.strptime(viewDate, '%Y-%m-%d').date()
-    date1, date2 = viewDate - timedelta(1), viewDate + timedelta(1)
-    strDate = viewDate.strftime('%B %d, %Y')
-    habits = Habit.query.filter_by(user_id=current_user.id)
-    checks = Check.query.filter_by(user_id=current_user.id, date=viewDate).all()
-    checkedHabits = []
-    uncheckedHabits = []
-    for check in checks:
-        habit = Habit.query.filter_by(id=check.habit_id).first()
-        # print(habit)
-        checkedHabits.append(habit)
-    for habit in habits:
-        if habit not in checkedHabits:
-            uncheckedHabits.append(habit)
-    # print('checks: ', checkedHabits)
-    # print('uc: ', uncheckedHabits)
-    month = getMonthCalendar(viewDate)
-    return render_template('index.html', title='Habit Tracker',
-    date=viewDate, date1=date1, date2=date2, strDate=strDate, month=month,
-    habits=uncheckedHabits, completedHabits=checkedHabits)
-
-@login_required
 @app.route('/viewStats/')
 @app.route('/viewStats/<range>')
 def viewStats(range=30):
-
+    """Generate stats for given range"""
     try:
         numRange = int(range)
         type = 'range'
@@ -157,6 +144,5 @@ def viewStats(range=30):
         statsList.append([stat, stats[stat], percent])
     print(statsList)
 
-    return render_template('viewStats.html',
-    stats=statsList, type=type, days=range,
-    month=month)
+    return render_template('viewStats.html', title='View Stats',
+    stats=statsList, type=type, days=range,month=month)

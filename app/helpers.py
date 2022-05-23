@@ -1,7 +1,7 @@
-from calendar import HTMLCalendar, firstweekday
+from calendar import HTMLCalendar
 from flask_login import current_user
 from app.models import Habit, Check
-from datetime import date, datetime
+from datetime import date
 
 class CustomCal(HTMLCalendar):
     def __init__(self, month, year):
@@ -10,16 +10,16 @@ class CustomCal(HTMLCalendar):
         self.month = month
         self.year = year
 
-
     def formatday(self, day, weekday):
-        day2 = str(day)
+        """Add links to calendar display"""
+        strDay = str(day)
         month = str(self.month)
         year = str(self.year)
-        if len(day2) == 1:
-            day2 = '0' + day2
+        if len(strDay) == 1:
+            strDay = '0' + strDay
         if len(month) == 1:
             month = '0' + month
-        date = year + '-' + month + '-' + day2 
+        date = year + '-' + month + '-' + strDay
         if day == 0:
             return '<td class="noday">&nbsp;</td>'
         else:
@@ -27,6 +27,10 @@ class CustomCal(HTMLCalendar):
 
 
 def getMonthCalendar(date):
+    """
+    Returns HTML calendar
+    Highlights today and/or current day
+    """
     month, year = date.month, date.year
     today = date.today()
 
@@ -41,11 +45,12 @@ def getMonthCalendar(date):
     display = '><span id="onDate">  ' + str(date.day) + '  </span><'
     editedCal = editedCal.replace(str(editDate), display)
 
-    # print(editedCal)
-
     return editedCal
 
 def getStats(range=0):
+    """
+    Returns statsDict: dict of stats for given date range
+    """
     today = date.today()
     habits = Habit.query.filter_by(user_id=current_user.id).all()
     statsDict = {}

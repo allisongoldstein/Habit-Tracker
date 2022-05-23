@@ -2,9 +2,9 @@
 
 <div class="content">
     <h1 class="center-h">
-        <a class="date-nav" href="{{ url_for('viewDate', viewDate=date1) }}"><<</a>
+        <a class="date-nav" href="{{ url_for('viewDate', viewDate=prevDate) }}"><<</a>
         <span id="viewDate">{{ strDate }}</span>
-        <a class="date-nav" href="{{ url_for('viewDate', viewDate=date2) }}">>></a>
+        <a class="date-nav" href="{{ url_for('viewDate', viewDate=nextDate) }}">>></a>
     </h1>
     <div class="habits">
     <h4>To Be Completed</h4>
@@ -13,7 +13,6 @@
     <label for="{{habit.id}}">{{ habit.name }}</label>
     {% if showDelete == true %} - <a class="delete-button" name="{{habit.id}}">[DELETE]</a>{% endif %}<br />
     {% endfor %}
-    
     <br />
     <div>
         <a data-target="#habit-modal" role="button" class="btn" data-toggle="modal"><span class="">Add Habit</span></a>
