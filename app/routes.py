@@ -140,7 +140,6 @@ def viewStats(range=30):
     statsList = getStats(30)
     for stat in statsList:          # append completion % to habit stats list
         stat.append(round(stat[2]/range * 100))
-    print(statsList)
 
     return render_template('viewStats.html', title='View Stats',
     stats=statsList, type=type, days=range, month=month)
@@ -150,9 +149,13 @@ def viewStats(range=30):
 def habitStats(habit_id):
     month = getMonthCalendar(datetime.today())
     habit = Habit.query.filter_by(id=habit_id).first()
-    title = 'Stats for {}'.format(habit.name)
-    months, days, stats = getHabitStats(habit_id, 4)
-    print(days)
+    name = habit.name
 
-    return render_template('habitStats.html', title=title, name=habit.name,
-    stats=stats, days=days, months=months, month=month)
+    title = 'Stats for {}'.format(name)
+    months, days, stats = getHabitStats(habit_id, 4)
+    imgurls = getImage(name)
+    imgurls = imgurls.splitlines()
+
+    return render_template('habitStats.html', title=title, name=name,
+    stats=stats, days=days, months=months, month=month,
+    imgurls=imgurls)

@@ -4,6 +4,7 @@ from flask_login import current_user
 from app.models import Habit, Check
 from datetime import date
 from time import strptime
+import time
 import calendar
 import matplotlib.pyplot as plt
 
@@ -110,3 +111,14 @@ def getHabitStats(id=1, numMonths=4):
         habitPercentages.append(round(stats[1][0]/stats[1][1] * 100))
     monthList[-1] += '*'
     return monthList, dayCount, habitPercentages
+
+def getImage(text):
+    text += ' clip art'
+    with open('../ms5/ms5.txt', 'w') as f:
+        f.write('runTheFollowing1' + text)
+    time.sleep(1)
+    with open('../ms5/ms5.txt', 'r') as fr:
+        imgs = fr.read()
+        # print(imgs)
+
+    return imgs

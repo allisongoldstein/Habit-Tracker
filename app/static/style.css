@@ -228,11 +228,11 @@ th.hb {
 }
 
 tr.hb {
-    background-color: #b4d2da;
+    background-color: rgb(184, 212, 230);
 }
 
 tr.hb:nth-child(odd) {
-    background-color: rgb(187, 231, 231);   
+    background-color: #e6d5f2;   
 }
 
 .error {
