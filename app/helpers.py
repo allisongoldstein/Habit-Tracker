@@ -2,7 +2,7 @@ from calendar import HTMLCalendar
 from random import getstate
 from flask_login import current_user
 from app.models import Habit, Check
-from datetime import date, datetime, timedelta
+from datetime import date
 from time import strptime
 import calendar
 import matplotlib.pyplot as plt
@@ -72,19 +72,19 @@ def getStats(range=0, statHabit=None):
         range = range.split(' ')
         month, year = range[0], range[1]
         intMonth, intYear = strptime(month, '%B').tm_mon, int(year)
-
+        displayMonth = month + ' ' + year
         if statHabit:
             checks = Check.query.filter_by(user_id=current_user.id, habit_id=statHabit.id).all()
         else:
             checks = Check.query.filter_by(user_id=current_user.id, habit_id=habit.id).all()
         count, total = 0, calendar.monthrange(intYear, intMonth)[1]
         if intMonth == today.month and intYear == today.year:           # percent up to today for current month
-            total = today.day
-
+            total = today.day  
+        
         for check in checks:
             if check.date.month == intMonth and check.date.year == intYear:
                 count += 1
-        statsList = [month + ' ' + year, [count, total]]
+        statsList = [displayMonth, [count, total]]
 
     return statsList
 
@@ -102,8 +102,11 @@ def getHabitStats(id=1, numMonths=4):
             year -= 1
         monthList.insert(0, calendar.month_name[month] + ' ' + str(year))
     habitPercentages = []
+    dayCount = []
     for month in monthList:
         stats = getStats(month, habit)
+        days = stats[1]
+        dayCount.append(days)
         habitPercentages.append(round(stats[1][0]/stats[1][1] * 100))
-    
-    return monthList, habitPercentages
+    monthList[-1] += '*'
+    return monthList, dayCount, habitPercentages

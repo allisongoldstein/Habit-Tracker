@@ -143,16 +143,16 @@ def viewStats(range=30):
     print(statsList)
 
     return render_template('viewStats.html', title='View Stats',
-    stats=statsList, type=type, days=range,month=month)
+    stats=statsList, type=type, days=range, month=month)
 
 @login_required
 @app.route('/habitStats/<habit_id>')
 def habitStats(habit_id):
+    month = getMonthCalendar(datetime.today())
     habit = Habit.query.filter_by(id=habit_id).first()
     title = 'Stats for {}'.format(habit.name)
-    print(habit)
-
-    months, stats = getHabitStats(habit_id, 3)
+    months, days, stats = getHabitStats(habit_id, 4)
+    print(days)
 
     return render_template('habitStats.html', title=title, name=habit.name,
-    stats=stats, months=months)
+    stats=stats, days=days, months=months, month=month)

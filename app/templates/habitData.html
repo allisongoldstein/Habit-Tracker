@@ -1,10 +1,28 @@
 {% block content %}
 
 <div class="content">
-    <h1 class="center-h">Stats for {{name}}</h1>
-    <div class="habits">
+    <h1 class="center-h">Stats for Habit: {{name}}</h1>
+    <div class="habit-table">    
+        <table class="hb">
+            <thead class="hb">
+            <tr class="hb">
+                <th class="hb">Month</th>
+                <th class="hb">Days Completed</th>
+                <th class="hb">Completion %</th>
+            </tr>
+            </thead>
+            <tbody class="hb">
+            {% for stat in stats %}
+                <tr class="hb">
+                    <td class="hb">{{ months[loop.index-1] }}</td>
+                    <td class="hb">{{ days[loop.index-1][0]}}/{{ days[loop.index-1][1] }}</td>
+                    <td class="hb">{{ stat }}%</td>
+                </tr>
 
-
+            {% endfor %}
+            </tbody>
+        </table>
+        * current month stats are only shown up to today's date
 
     </div>
 </div>

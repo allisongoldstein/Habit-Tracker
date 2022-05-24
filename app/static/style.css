@@ -203,6 +203,38 @@ td {
     color: red;
   }
 
+.habit-table {
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 450px;
+    text-align: center;
+}
+
+.hb {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    text-align: center;
+}
+
+th.hb, td.hb {
+    border: 1px solid black;
+}
+
+/* / */
+
+th.hb {
+    background-color: rgb(237, 241, 241);
+}
+
+tr.hb {
+    background-color: #b4d2da;
+}
+
+tr.hb:nth-child(odd) {
+    background-color: rgb(187, 231, 231);   
+}
+
 .error {
     color: red;
     
