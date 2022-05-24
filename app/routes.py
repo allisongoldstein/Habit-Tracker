@@ -137,12 +137,22 @@ def viewStats(range=30):
         print('range =', month, year)
 
     month = getMonthCalendar(datetime.today())
-    stats = getStats(30)
-    statsList = []
-    for stat in stats:
-        percent = round(stats[stat]/range * 100)
-        statsList.append([stat, stats[stat], percent])
+    statsList = getStats(30)
+    for stat in statsList:          # append completion % to habit stats list
+        stat.append(round(stat[2]/range * 100))
     print(statsList)
 
     return render_template('viewStats.html', title='View Stats',
     stats=statsList, type=type, days=range,month=month)
+
+@login_required
+@app.route('/habitStats/<habit_id>')
+def habitStats(habit_id):
+    habit = Habit.query.filter_by(id=habit_id).first()
+    title = 'Stats for {}'.format(habit.name)
+    print(habit)
+
+    months, stats = getHabitStats(habit_id, 3)
+
+    return render_template('habitStats.html', title=title, name=habit.name,
+    stats=stats, months=months)

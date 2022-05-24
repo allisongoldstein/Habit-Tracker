@@ -9,7 +9,7 @@
     <br />
     {% endif %}
     {% for stat in stats %}
-    <p>{{ stat[0] }} - {{ stat[1] }}/30 = {{ stat[2] }}%</p>
+    <p><a href="{{ url_for('habitStats', habit_id=stat[0]) }}">{{ stat[1] }}</a> - {{ stat[2] }}/30 = {{ stat[3] }}%</p>
     {% endfor %}
 
     </div>

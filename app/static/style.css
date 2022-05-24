@@ -1,6 +1,6 @@
 .navbar {
     background-color: white;
-    border: 1px solid black;
+    border: 2px solid black;
     border-top: transparent;
     border-radius: 0;
     margin-left: 35px;
@@ -45,7 +45,7 @@ label {
     display: flex;
     flex-direction: column;
     margin: 20px;
-    border: 1px solid black;
+    border: 2px solid black;
     background-color: white;
     padding-bottom: 15px;
 }
@@ -93,8 +93,8 @@ label {
 }
 
 .btn, .btn:hover, .btn:active {
-    background-color: rgb(202, 73, 125);
-    border: 1px solid black;
+    background-color: rgb(144, 57, 238);
+    border: 2px solid black;
     padding: 5px;
     width: 100px;
     color: white;
