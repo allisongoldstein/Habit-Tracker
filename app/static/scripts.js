@@ -15,6 +15,14 @@ $(document).ready(function(){
         }
     })
 
+    $('#custom-schedule').change(function(){
+        if (this.checked) {
+            console.log('custom schedule')
+        } else {
+            console.log('no custom schedule')
+        }
+    })
+
     $('.habit').change(function() {
         var id = this['name']
         if(this.checked) {

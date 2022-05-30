@@ -6,7 +6,6 @@ from datetime import date
 from time import strptime
 import time
 import calendar
-import matplotlib.pyplot as plt
 
 class CustomCal(HTMLCalendar):
     def __init__(self, month, year):
@@ -119,6 +118,5 @@ def getImage(text):
     time.sleep(1)
     with open('../ms5/ms5.txt', 'r') as fr:
         imgs = fr.read()
-        # print(imgs)
 
     return imgs

@@ -178,30 +178,23 @@ td {
 }
 
 .options {
-    /* background-color: #777; */
-    /* color: white; */
-    /* cursor: pointer; */
-    /* padding: 18px; */
     width: 100%;
     border: none;
     text-align: left;
     outline: none;
-    /* color: red; */
-    /* font-size: 15px; */
-  }
+}
   
-  .active, .options:hover {
-    /* background-color: #555; */
+.active, .options:hover {
     color: black;
-  }
+}
 
-  .advanced-options {
+.advanced-options {
     padding: 0 18px;
     display: none;
     overflow: hidden;
     background-color: #f1f1f1;
     color: red;
-  }
+}
 
 .habit-table {
     margin-left: auto;
@@ -221,8 +214,6 @@ th.hb, td.hb {
     border: 1px solid black;
 }
 
-/* / */
-
 th.hb {
     background-color: rgb(237, 241, 241);
 }
@@ -236,6 +227,5 @@ tr.hb:nth-child(odd) {
 }
 
 .error {
-    color: red;
-    
+    color: red; 
 }
