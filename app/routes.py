@@ -147,6 +147,7 @@ def delete():
 @app.route('/viewStats/<range>')
 def viewStats(range=30):
     """Generate stats for given range"""
+    calDate = date.today()
     try:
         numRange = int(range)
         type = 'range'
@@ -162,11 +163,12 @@ def viewStats(range=30):
         stat.append(round(stat[2]/range * 100))
 
     return render_template('viewStats.html', title='View Stats',
-    stats=statsList, type=type, days=range, month=month)
+    stats=statsList, type=type, days=range, month=month, date=calDate)
 
 @login_required
 @app.route('/habitStats/<habit_id>')
 def habitStats(habit_id):
+    calDate = date.today()
     month = getMonthCalendar(datetime.today())
     habit = Habit.query.filter_by(id=habit_id).first()
     name = habit.name
@@ -175,7 +177,9 @@ def habitStats(habit_id):
     months, days, stats = getHabitStats(habit_id, 4)
     imgurls = getImage(name)
     imgurls = imgurls.splitlines()
+    if len(imgurls) == 1:
+        imgurls = None
 
     return render_template('habitStats.html', title=title, name=name,
     stats=stats, days=days, months=months, month=month,
-    imgurls=imgurls)
+    date=calDate, imgurls=imgurls)
