@@ -6,11 +6,12 @@
     <div class="button-display">
         <label for="datepicker">
             <input type="date" id="datepicker" value={{date}}><br />
-            <button id="datepicker-submit">View Date</button>
+            <button id="datepicker-submit" class="sidebar-button">View Selected Date</button><br />
+            <a href="{{ url_for('viewDate') }}"><button class="sidebar-button">Jump to Today</button></a>
         </label> 
         <br /><br />
-        <button class="sidebar-button">View Sample Habits</button>
-        <br /><br />
+        <a href="{{ url_for('viewStats') }}"><button class="sidebar-button">View Stats</button></a>
+        <br />
         <button class="sidebar-button">FAQs</button>
     </div>
 </div>

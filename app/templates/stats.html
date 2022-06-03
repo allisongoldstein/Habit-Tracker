@@ -11,6 +11,8 @@
     {% for stat in stats %}
     <p><a href="{{ url_for('habitStats', habit_id=stat[0]) }}">{{ stat[1] }}</a> - {{ stat[2] }}/30 = {{ stat[3] }}%</p>
     {% endfor %}
+    <br />
+    Select individual habit to view more stats!
 
     </div>
 </div>

@@ -4,11 +4,9 @@
     <div class="navbar">
         <a class="navlink" href="/">Home</a>
         &nbsp;|&nbsp;
-        <a class="navlink" href="">Sample Data</a>
+        <a class="navlink" href="{{ url_for('viewStats') }}">View Stats</a>
         &nbsp;|&nbsp;
         <a class="navlink" href="">FAQs</a>
-        &nbsp;|&nbsp;
-        <a class="navlink" href="{{ url_for('viewStats') }}">Stats</a>
         <div class="right">
         {% if current_user.is_anonymous %}
         <a class="navlink" href="{{ url_for('login') }}">Login</a>
