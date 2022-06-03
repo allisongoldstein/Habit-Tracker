@@ -32,8 +32,7 @@ def viewDate(viewDate=None):
     strDate = viewDate.strftime('%B %d, %Y')
     habits = Habit.query.filter_by(user_id=current_user.id)
     checks = Check.query.filter_by(user_id=current_user.id, date=viewDate).all()
-    checkedHabits = []
-    uncheckedHabits = []
+    checkedHabits, uncheckedHabits = [], []
     for check in checks:
         habit = Habit.query.filter_by(id=check.habit_id).first()
         checkedHabits.append(habit)

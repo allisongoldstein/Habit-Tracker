@@ -1,5 +1,4 @@
 from calendar import HTMLCalendar
-from random import getstate
 from flask_login import current_user
 from app.models import Habit, Check
 from datetime import date
@@ -69,23 +68,26 @@ def getStats(range=0, statHabit=None):
                     habitStats[2] += 1
             statsList.append(habitStats)
     except:
-        range = range.split(' ')
-        month, year = range[0], range[1]
-        intMonth, intYear = strptime(month, '%B').tm_mon, int(year)
-        displayMonth = month + ' ' + year
-        if statHabit:
-            checks = Check.query.filter_by(user_id=current_user.id, habit_id=statHabit.id).all()
-        else:
-            checks = Check.query.filter_by(user_id=current_user.id, habit_id=habit.id).all()
-        count, total = 0, calendar.monthrange(intYear, intMonth)[1]
-        if intMonth == today.month and intYear == today.year:           # percent up to today for current month
-            total = today.day  
-        
-        for check in checks:
-            if check.date.month == intMonth and check.date.year == intYear:
-                count += 1
-        statsList = [displayMonth, [count, total]]
+        statsList = getHabitStatsByMonth(statHabit, range, today)
 
+    return statsList
+
+def getHabitStatsByMonth(statHabit, range, today):
+    """Generates stats for statHabit in range time frame"""
+    range = range.split(' ')
+    month, year = range[0], range[1]
+    intMonth, intYear = strptime(month, '%B').tm_mon, int(year)
+    displayMonth = month + ' ' + year
+    if statHabit:
+        checks = Check.query.filter_by(user_id=current_user.id, habit_id=statHabit.id).all()
+    count, total = 0, calendar.monthrange(intYear, intMonth)[1]
+    if intMonth == today.month and intYear == today.year:           # percent up to today for current month
+        total = today.day  
+        
+    for check in checks:
+        if check.date.month == intMonth and check.date.year == intYear:
+                count += 1
+    statsList = [displayMonth, [count, total]]
     return statsList
 
 def getHabitStats(id=1, numMonths=4):
@@ -101,8 +103,7 @@ def getHabitStats(id=1, numMonths=4):
             month = 12
             year -= 1
         monthList.insert(0, calendar.month_name[month] + ' ' + str(year))
-    habitPercentages = []
-    dayCount = []
+    habitPercentages, dayCount = [], []
     for month in monthList:
         stats = getStats(month, habit)
         days = stats[1]
