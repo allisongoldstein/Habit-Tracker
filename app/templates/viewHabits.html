@@ -10,12 +10,12 @@
     <h4>To Be Completed</h4>
     {% for habit in habits %}
     <input type="checkbox" class="habit" id="habit" name="{{habit.id}}">
-    <label for="{{habit.id}}">{{ habit.name }}</label>
+    <label for="{{habit.id}}"><a onclick="editHabit('{{habit.id}}')">{{ habit.name }}</a></label>
     {% if showDelete == true %} - <a class="delete-button" name="{{habit.id}}">[DELETE]</a>{% endif %}<br />
     {% endfor %}
     <br />
     <div>
-        <a data-target="#habit-modal" role="button" class="btn" data-toggle="modal"><span class="">Add Habit</span></a>
+        <a data-target="#add-habit-modal" role="button" class="btn" data-toggle="modal"><span class="">Add Habit</span></a>
     </div>
     {% if completedHabits %}
     <hr>
@@ -29,7 +29,7 @@
     {% endif %}
     </div>
 
-    <div id="habit-modal" class="modal fade">
+    <div id="add-habit-modal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -41,39 +41,83 @@
                     <input type="text" name="name" id="name" class="form-control" />
                     <br />
 
-                        <button type="button" class="options" data-toggle="collapse" data-target="#advanced-options" aria-expanded="false" aria-controls="advanced-options">
-                            -- Advanced Options -- 
-                        </button>
-                      <div class="collapse" id="advanced-options">
-                        <div class="card card-body">
-                          <br />
-                          <input type="checkbox" id="custom-schedule" name="custom-schedule">
-                          <label for="custom-schedule">Set Custom Schedule</label>
-                          <br />
-                          <input type="checkbox" id="days" value="Su">
-                          <label for="Su">Su</label>
-                          <input type="checkbox" id="days" value="M">
-                          <label for="M">M</label>
-                          <input type="checkbox" id="days" value="T">
-                          <label for="T">T</label>
-                          <input type="checkbox" id="W" value="W">
-                          <label for="W">W</label>
-                          <input type="checkbox" id="Th" value="Th">
-                          <label for="Th">Th</label>
-                          <input type="checkbox" id="F" value="F">
-                          <label for="F">F</label>
-                          <input type="checkbox" id="Sa" value="Sa">
-                          <label for="Sa">Sa</label>
-                        </div>
-                      </div>
+                    <button type="button" class="options" data-toggle="collapse" data-target="#advanced-options" aria-expanded="false" aria-controls="advanced-options">
+                        -- Advanced Options -- 
+                    </button>
+                    <br />
 
-                    <br /><br />
+                    <div class="collapse" id="advanced-options">
+                        <div class="card card-body">
+                        <br />
+                        <input type="checkbox" id="custom-schedule" name="custom-schedule">
+                        <label for="custom-schedule">Set Custom Schedule</label>
+                        <br />
+                        <input type="checkbox" id="days" value="Su">
+                        <label for="Su">Su</label>
+                        <input type="checkbox" id="days" value="M">
+                        <label for="M">M</label>
+                        <input type="checkbox" id="days" value="T">
+                        <label for="T">T</label>
+                        <input type="checkbox" id="W" value="W">
+                        <label for="W">W</label>
+                        <input type="checkbox" id="Th" value="Th">
+                        <label for="Th">Th</label>
+                        <input type="checkbox" id="F" value="F">
+                        <label for="F">F</label>
+                        <input type="checkbox" id="Sa" value="Sa">
+                        <label for="Sa">Sa</label>
+                        <br>
+                        <input type="checkbox" id="hide-custom-schedule">
+                        <label for="hide-custom-schedule">Hide habit on off days</label>
+                        <br /><br />
+                        Notes
+                        <br />
+                        <input type="text" id="notes-content">
+                        <br />
+                        </div>
+                    </div>
+
+                    <br />
                     <button type="button" name="submit-button" id="submit-button" class="btn">Add Habit</button>
                 </div>
             </div>
 
         </div>
+    </div>
+    
+    {% for habit in habits %}
+    <div id="{{habit.id}}" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">x</button>
+                    <h4 class="modal-title">Edit Habit - {{ habit.name }}</h4>
+                </div>
+
+                <div class="modal-body">
+                    Habit Name<br />
+                    <input type="text" id="habit-name" value="{{ habit.name }}">
+                    <br /><br />
+
+                    Notes<br />
+                    {% if habit.notes %}
+                    <input type="text" id="habit-notes" value="{{ habit.notes }}">
+                    {% else %}
+                    <input type="text" id="habit-notes" value="">
+                    {% endif %}
+                    <br /><br />
+
+                    <button type="button" class="update-button btn" name="{{habit.id}}">Update Habit</button>
+                    &nbsp;&nbsp;&nbsp;
+                    <button type="button" class="delete-button btn" name="{{habit.id}}">Delete Habit</button>
+                </div>
+
+            </div>
         </div>
+    </div>
+    {% endfor %}
+
     </div>
 </div>
 

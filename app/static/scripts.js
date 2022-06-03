@@ -2,24 +2,17 @@ $(document).ready(function(){
 
     $('#submit-button').click(function(){
         var name = $('#name').val();
+        var notes = $('#notes-content').val()
         if(name != '') {
             $.ajax({
                 url:'/add',
                 method:'POST',
-                data: {name:name},
+                data: {name:name, notes:notes},
                 success:function(data){
                     $('#habit-modal').hide();
                     location.reload();
                 }
             })
-        }
-    })
-
-    $('#custom-schedule').change(function(){
-        if (this.checked) {
-            console.log('custom schedule')
-        } else {
-            console.log('no custom schedule')
         }
     })
 
@@ -31,11 +24,25 @@ $(document).ready(function(){
             var checked = 'unchecked'
         }
         var date = $('#viewDate').text()
-        console.log(date)
         $.ajax({
             url:'/check',
             method:'POST',
             data: {checked:checked, id:id, date:date},
+            success:function(data){
+                location.reload();
+            }
+        })
+    })
+
+    $('.update-button').click(function(){
+        var id = this.name
+        var idRef = '#' + id
+        var name = $('#habit-name', idRef).val();
+        var notes = $('#habit-notes', idRef).val();
+        $.ajax({
+            url:'/update',
+            method:'POST',
+            data: {id:id, name:name, notes:notes},
             success:function(data){
                 location.reload();
             }
@@ -56,7 +63,6 @@ $(document).ready(function(){
 
     $('#datepicker-submit').click(function() {
         var date = $('#datepicker').val();
-        console.log(date)
         $.ajax({
             success:function(data){
                 window.location.href = '/viewDate/' + date
@@ -66,7 +72,6 @@ $(document).ready(function(){
 
     $('.calDate').click(function() {
         date = this.name
-        console.log(date)
         moveToDate(date)
     })
 
@@ -78,4 +83,9 @@ function moveToDate(date) {
 
 function f() {
     return
+}
+
+function editHabit(id) {
+    var modal = $('#' + id)
+    modal.modal()
 }

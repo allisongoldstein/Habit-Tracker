@@ -19,6 +19,10 @@
     padding: 0px;
 }
 
+a, a:hover {
+    color: black;
+}
+
 .right {
     float: right;
     color: black;
@@ -99,11 +103,6 @@ label {
     width: 100px;
     color: white;
     border-radius: 0;
-}
-
-.delete-button, .delete-button:hover {
-    font-weight: bold;
-    color: black;
 }
 
 .calendar-display {

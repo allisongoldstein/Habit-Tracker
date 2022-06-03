@@ -25,6 +25,9 @@ class User(UserMixin, db.Model):
 class Habit(db.Model):
     id = db.Column(db.Integer, index=True, primary_key=True)
     name = db.Column(db.String(120), index=True)
+    notes = db.Column(db.Text)
+    custom_schedule = db.Column(db.Boolean, default=False)
+    days = db.Column(db.String(7))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id')) ##
     checks = db.relationship('Check', cascade='all, delete', backref='habits')
 

@@ -86,7 +86,11 @@ def add():
     """Add new habit"""
     if request.method == 'POST':
         name = request.form['name']
-        habit = Habit(name=name, user_id=current_user.id)
+        if request.form['notes'] != '':
+            notes = request.form['notes']
+            habit = Habit(name=name, user_id=current_user.id, notes=notes)
+        else:
+            habit = Habit(name=name, user_id=current_user.id)
         db.session.add(habit)
         db.session.commit()
     return 'success'
@@ -110,6 +114,20 @@ def check():
         db.session.commit()
 
     return 'success'
+
+@login_required
+@app.route('/update', methods=['GET', 'POST'])
+def update():
+    """Update habit"""
+    if request.method == 'POST':
+        id = request.form['id']
+        name = request.form['name']
+        notes = request.form['notes']
+        habit = Habit.query.filter_by(id=id).first()
+        habit.name = name
+        habit.notes = notes
+        db.session.commit()
+        return 'success'
 
 @login_required
 @app.route('/delete', methods=['GET', 'POST'])
