@@ -11,6 +11,9 @@
     {% for habit in habits %}
     <input type="checkbox" class="habit" id="habit" name="{{habit.id}}">
     <label for="{{habit.id}}"><a onclick="editHabit('{{habit.id}}')">{{ habit.name }}</a></label>
+    {% if habit.notes != none %}
+     - <i>{{ habit.notes }}</i>
+    {% endif %}
     <br />
     {% endfor %}
     <br />
@@ -23,7 +26,12 @@
     <div class="completed-habits">
     {% for habit in completedHabits %}
     <input type="checkbox" class="habit" id="habit" name="{{habit.id}}" checked>
-    <label class="completed" for="{{habit.id}}">{{ habit.name }}</label><br />
+    <label class="completed" for="{{habit.id}}">{{ habit.name }}
+    {% if habit.notes != none %}
+    - <i>{{ habit.notes }}</i>
+    {% endif %}
+    </label>
+    <br />
     {% endfor %}
     </div>
     {% endif %}

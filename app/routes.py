@@ -123,6 +123,8 @@ def update():
         id = request.form['id']
         name = request.form['name']
         notes = request.form['notes']
+        if notes == '':
+            notes = None
         habit = Habit.query.filter_by(id=id).first()
         habit.name = name
         habit.notes = notes
