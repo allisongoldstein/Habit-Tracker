@@ -225,6 +225,10 @@ tr.hb:nth-child(odd) {
     background-color: #e6d5f2;   
 }
 
+#name, #habit-name, #notes-content {
+    width: 300px;
+}
+
 .error {
     color: red; 
 }

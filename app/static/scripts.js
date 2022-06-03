@@ -38,7 +38,7 @@ $(document).ready(function(){
         var id = this.name
         var idRef = '#' + id
         var name = $('#habit-name', idRef).val();
-        var notes = $('#habit-notes', idRef).val();
+        var notes = $('#notes-content', idRef).val();
         $.ajax({
             url:'/update',
             method:'POST',
@@ -50,15 +50,20 @@ $(document).ready(function(){
     })
 
     $('.delete-button').click(function(){
-        var id = this.name
-        $.ajax({
-            url:'/delete',
-            method:'POST',
-            data: {id:id},
-            success:function(data){
-                location.reload();
-            }
-        })
+        let confirmDelete = confirm('This will permanently delete all records of this habit. This cannot be undone.');
+        if (confirmDelete) {
+            var id = this.name
+            $.ajax({
+                url:'/delete',
+                method:'POST',
+                data: {id:id},
+                success:function(data){
+                    location.reload();
+                }
+            })
+        } else {
+            console.log('cancel delete')
+        }
     })
 
     $('#datepicker-submit').click(function() {

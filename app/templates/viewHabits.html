@@ -11,7 +11,7 @@
     {% for habit in habits %}
     <input type="checkbox" class="habit" id="habit" name="{{habit.id}}">
     <label for="{{habit.id}}"><a onclick="editHabit('{{habit.id}}')">{{ habit.name }}</a></label>
-    {% if showDelete == true %} - <a class="delete-button" name="{{habit.id}}">[DELETE]</a>{% endif %}<br />
+    <br />
     {% endfor %}
     <br />
     <div>
@@ -38,7 +38,9 @@
                 </div>
                 <div class="modal-body">
                     <label>Habit Name</label>
-                    <input type="text" name="name" id="name" class="form-control" />
+                    <br />
+                    <input type="text" name="name" id="name">
+                    <br />
                     <br />
 
                     <button type="button" class="options" data-toggle="collapse" data-target="#advanced-options" aria-expanded="false" aria-controls="advanced-options">
@@ -102,9 +104,9 @@
 
                     Notes<br />
                     {% if habit.notes %}
-                    <input type="text" id="habit-notes" value="{{ habit.notes }}">
+                    <input type="text" id="notes-content" value="{{ habit.notes }}">
                     {% else %}
-                    <input type="text" id="habit-notes" value="">
+                    <input type="text" id="notes-content" value="">
                     {% endif %}
                     <br /><br />
 
