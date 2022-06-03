@@ -109,7 +109,7 @@ def check():
             check = Check(habit_id=id, user_id=current_user.id, date=date)
             db.session.add(check)
         else:                                                       # uncheck
-            check = Check.query.filter_by(habit_id=id, user_id=current_user.id).first()
+            check = Check.query.filter_by(habit_id=id, user_id=current_user.id, date=date).first()
             db.session.delete(check)
         db.session.commit()
 
